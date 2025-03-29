@@ -16,6 +16,12 @@ COPY . .
 # Publish the app
 RUN dotnet publish "src/WebAPI/WebAPI.csproj" -c Release -o /app
 
+# Migration stage
+FROM mcr.microsoft.com/dotnet/sdk:9.0 AS migration
+WORKDIR /src
+COPY --from=build /src .
+ENTRYPOINT ["dotnet", "ef", "database", "update"]
+
 # Runtime stage
 FROM mcr.microsoft.com/dotnet/aspnet:9.0
 WORKDIR /app

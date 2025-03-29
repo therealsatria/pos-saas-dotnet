@@ -11,7 +11,6 @@ services:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
-      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres -d pos_saas"]
       interval: 5s
@@ -35,6 +34,18 @@ services:
       interval: 30s
       timeout: 30s
       retries: 3
+
+  migration:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    target: migration
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Host=postgres;Database=pos_saas;Username=postgres;Password=postgres
 
 volumes:
   pgdata:

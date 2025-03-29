@@ -1,222 +1,191 @@
-# pos-saas-dotnet
+# POS SaaS System
 
-```
+## Entity Relationship Diagram
+
+```mermaid
 erDiagram
-    %% 1. Tenant & Subscription Management
-    tenants {
-        uuid id PK
-        string name
-        string subdomain
-        uuid plan_id FK
+    Tenant {
+        uuid Id
+        string Name
+        string Domain
+        string ConnectionString
+    }
+    Subscription {
+        uuid Id
+        uuid TenantId
+        uuid PlanId
+        DateTime StartDate
+        DateTime EndDate
+        string Status
+    }
+    SubscriptionPlan {
+        uuid Id
+        string Name
+        decimal Price
+        int DurationDays
+    }
+    User {
+        uuid Id
+        string Username
+        string PasswordHash
+        string Email
+    }
+    Role {
+        uuid Id
+        string Name
+    }
+    Permission {
+        uuid Id
+        string Name
+    }
+    RolePermission {
+        uuid RoleId
+        uuid PermissionId
+    }
+    UserRole {
+        uuid UserId
+        uuid RoleId
+    }
+    Product {
+        uuid Id
+        string Name
+        string Description
+        decimal Price
+        uuid CategoryId
+        uuid SupplierId
+    }
+    Category {
+        uuid Id
+        string Name
+        uuid ParentId
+    }
+    ProductCategory {
+        uuid ProductId
+        uuid CategoryId
+    }
+    Inventory {
+        uuid Id
+        uuid ProductId
+        int Quantity
+    }
+    InventoryLog {
+        uuid Id
+        uuid InventoryId
+        int QuantityChange
+        string Description
+        DateTime Timestamp
+    }
+    Supplier {
+        uuid Id
+        string Name
+        string ContactInfo
+    }
+    Sale {
+        uuid Id
+        DateTime SaleDate
+        uuid CustomerId
+        decimal TotalAmount
+        uuid TaxId
+        uuid DiscountId
+    }
+    SaleItem {
+        uuid Id
+        uuid SaleId
+        uuid ProductId
+        int Quantity
+        decimal Price
+    }
+    Payment {
+        uuid Id
+        uuid SaleId
+        DateTime PaymentDate
+        decimal Amount
+        string PaymentMethod
+    }
+    Tax {
+        uuid Id
+        string Name
+        decimal Rate
+    }
+    Discount {
+        uuid Id
+        string Name
+        decimal Rate
+    }
+    Customer {
+        uuid Id
+        string Name
+        string ContactInfo
+    }
+    LoyaltyProgram {
+        uuid Id
+        string Name
+        decimal PointsPerDollar
+    }
+    LoyaltyPoints {
+        uuid Id
+        uuid CustomerId
+        uuid LoyaltyProgramId
+        int Points
+    }
+    AuditLog {
+        uuid Id
+        DateTime Timestamp
+        string Action
+        string Details
+    }
+    Report {
+        uuid Id
+        string Name
+        DateTime DateGenerated
+        string Content
+    }
+    PaymentGateway {
+        uuid Id
+        string Name
+        string ApiKey
+    }
+    TenantSetting {
+        uuid Id
+        uuid TenantId
+        string SettingKey
+        string SettingValue
     }
 
-    subscriptions {
-        uuid id PK
-        uuid tenant_id FK
-        uuid plan_id FK
-        string status
-        timestamp start_date
-        timestamp end_date
-    }
+    Tenant ||--o{ Subscription : has
+    Tenant ||--o{ TenantSetting : has
+    SubscriptionPlan ||--o{ Subscription : has
 
-    subscription_plans {
-        uuid id PK
-        string name
-        decimal price
-        json features
-    }
+    User ||--o{ UserRole : has
+    Role ||--o{ UserRole : has
+    Role ||--o{ RolePermission : has
+    Permission ||--o{ RolePermission : has
 
-    %% 2. User & RBAC
-    users {
-        uuid id PK
-        uuid tenant_id FK
-        string email
-        string password_hash
-        timestamp created_at
-    }
+    Product ||--o{ ProductCategory : has
+    Category ||--o{ ProductCategory : has
+    Category ||--o{ Category : "parent-child"
+    Product ||--|| Inventory : has
+    Product ||--o{ Supplier : has
+    Inventory ||--o{ InventoryLog : has
 
-    roles {
-        uuid id PK
-        uuid tenant_id FK
-        string name
-        json permissions
-    }
+    Sale ||--o{ SaleItem : contains
+    Sale ||--|| Payment : has
+    Sale ||--o{ Tax : has
+    Sale ||--o{ Discount : has
+    
+    Customer ||--|| LoyaltyPoints : has
+    LoyaltyProgram ||--o{ LoyaltyPoints : has
 
-    user_roles {
-        uuid user_id PK, FK
-        uuid role_id PK, FK
-    }
+    PaymentGateway }o--o{ Payment : processes
+    AuditLog ||--|{ Report : generates
+```
 
-    permissions {
-        uuid id PK
-        string name
-        string description
-    }
-
-    %% 3. Product & Inventory
-    products {
-        uuid id PK
-        uuid tenant_id FK
-        string sku
-        string name
-        decimal price
-    }
-
-    categories {
-        uuid id PK
-        uuid tenant_id FK
-        string name
-        uuid parent_id FK "Hierarchical category"
-    }
-
-    product_categories {
-        uuid product_id PK, FK
-        uuid category_id PK, FK
-    }
-
-    inventory {
-        uuid id PK
-        uuid tenant_id FK
-        uuid product_id FK
-        integer stock
-        string location
-    }
-
-    inventory_logs {
-        uuid id PK
-        uuid inventory_id FK
-        integer quantity
-        string action_type "restock/sale/adjustment"
-        timestamp created_at
-    }
-
-    suppliers {
-        uuid id PK
-        uuid tenant_id FK
-        string name
-        string contact
-    }
-
-    %% 4. Sales & Payment
-    sales {
-        uuid id PK
-        uuid tenant_id FK
-        uuid user_id FK
-        decimal total_amount
-        timestamp created_at
-    }
-
-    sale_items {
-        uuid id PK
-        uuid sale_id FK
-        uuid product_id FK
-        integer quantity
-        decimal unit_price
-    }
-
-    payments {
-        uuid id PK
-        uuid sale_id FK
-        string method "cash/card/ewallet"
-        decimal amount
-        string transaction_id
-    }
-
-    taxes {
-        uuid id PK
-        uuid tenant_id FK
-        string name
-        decimal rate
-    }
-
-    discounts {
-        uuid id PK
-        uuid tenant_id FK
-        string code
-        decimal value
-        string type "percentage/fixed"
-    }
-
-    %% 5. Customer & Loyalty
-    customers {
-        uuid id PK
-        uuid tenant_id FK
-        string name
-        string phone
-        string email
-    }
-
-    loyalty_programs {
-        uuid id PK
-        uuid tenant_id FK
-        string name
-        decimal points_rate "Points per currency"
-    }
-
-    loyalty_points {
-        uuid id PK
-        uuid customer_id FK
-        integer balance
-    }
-
-    %% 6. Reporting & Logs
-    audit_logs {
-        uuid id PK
-        uuid tenant_id FK
-        uuid user_id FK
-        string action
-        timestamp created_at
-    }
-
-    reports {
-        uuid id PK
-        uuid tenant_id FK
-        string type
-        json data
-    }
-
-    %% 7. Integrations & Settings
-    payment_gateways {
-        uuid id PK
-        uuid tenant_id FK
-        string type "stripe/midtrans"
-        string api_key_encrypted
-    }
-
-    tenant_settings {
-        uuid id PK
-        uuid tenant_id FK
-        string setting_key
-        string setting_value
-    }
-
-    %% Relationships
-    tenants ||--o{ subscriptions : "has"
-    subscription_plans ||--o{ subscriptions : "offers"
-    tenants ||--o{ users : "has"
-    tenants ||--o{ roles : "defines"
-    users }|--|| roles : "assigned_via"
-    roles }|--|{ permissions : "has"
-
-    tenants ||--o{ products : "owns"
-    products }|--|{ categories : "categorized_via"
-    categories }|--|| categories : "child_of"
-    products ||--o{ inventory : "tracks"
-    inventory ||--o{ inventory_logs : "logs"
-    suppliers }o--|| products : "supplies"
-
-    tenants ||--o{ sales : "has"
-    sales ||--o{ sale_items : "contains"
-    sale_items }o--|| products : "references"
-    sales }|--|| payments : "processed_via"
-    sales }|--|| taxes : "applies"
-    sales }|--|| discounts : "applies"
-
-    tenants ||--o{ customers : "has"
-    customers }|--|| loyalty_points : "earns"
-    loyalty_programs ||--o{ loyalty_points : "governs"
-
-    tenants ||--o{ audit_logs : "logs"
-    tenants ||--o{ reports : "generates"
-    tenants ||--o{ payment_gateways : "configures"
-    tenants ||--o{ tenant_settings : "configures"
+## Entity Details
+- **Tenant**: Multi-tenant system management
+- **Subscription**: Tenant subscription management
+- **User**: User management and authentication
+- **Product**: Product catalog and inventory
+- **Sale**: Sales transactions and payments
+- **Customer**: Customer management and loyalty
+- **Report**: System reporting and analytics
+```

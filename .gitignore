@@ -1,0 +1,167 @@
+# .NET Core
+**/bin/
+**/obj/
+*.user
+*.suo
+*.userprefs
+*.nupkg
+*.swp
+*.pidb
+*.DS_Store
+*.resharper
+*.dotCover
+*.vs/
+.vscode/
+.history/
+*.vsconfig
+
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+# Docker
+docker-compose.override.yml
+**/.dockerignore
+**/docker-compose.*.yml
+**/docker-compose.*.yaml
+docker-compose.*.yml
+docker-compose.*.yaml
+
+# Database
+**/App_Data/
+*.mdf
+*.ldf
+*.sdf
+*.sqlite
+*.db
+*.db-shm
+*.db-wal
+
+# PostgreSQL
+**/pgdata/
+**/postgres-data/
+
+# Secrets
+**/appsettings.Development.json
+**/appsettings.Local.json
+**/appsettings.Staging.json
+**/appsettings.Production.json
+**/secrets.json
+*.env
+*.secret
+*.pfx
+*.p12
+*.cer
+*.crt
+*.key
+*.jks
+
+# NuGet
+**/[Pp]ackages/*
+!**/[Pp]ackages/repositories.config
+.nuget/
+NuGet.exe
+nuget.config
+
+# Rider/ReSharper
+_ReSharper.*/
+*.sln.iml
+
+# Visual Studio Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# IDE - JetBrains Rider
+.idea/
+*.sln.iml
+
+# Test results
+TestResults/
+**/TestResults/
+*.trx
+*.coverage
+*.coveragexml
+
+# Build output
+artifacts/
+**/artifacts/
+**/publish/
+**/wwwroot/
+**/dist/
+
+# Node.js
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Azure
+*.azurePubxml
+*.pubxml
+*.publishsettings
+
+# macOS
+.DS_Store
+
+# Linux
+*~
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# Backup files
+*.bak
+*.tmp
+*.temp
+*.TMP
+*.TEMP
+
+# Local development files
+**/.local
+**/local.settings.json
+
+# Visual Studio
+*.VC.db
+*.VC.VC.opendb
+
+# SQL Server files
+*.sql
+*.bacpac
+
+# Entity Framework Core Migrations
+!**/Migrations/
+**/Migrations/*.Designer.cs
+**/Migrations/*.resx
+
+# Exceptions
+!**/Migrations/*.cs
+
+# Logs
+*.log
+*.log.*
+*.etl
+*.har
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# JetBrains Rider
+.idea/
+*.sln.iml

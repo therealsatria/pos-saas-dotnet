@@ -5,42 +5,31 @@ using System.Diagnostics.CodeAnalysis;
 namespace Core.Entities
 {
     /// <summary>
-    /// Represents a user role with associated permissions
+    /// Represents a permission that can be assigned to roles
     /// </summary>
-    public class Role : BaseEntity
+    public class Permission : BaseEntity
     {
         /// <summary>
-        /// Initializes a new instance of the Role class
+        /// Initializes a new instance of the Permission class
         /// </summary>
-        public Role()
+        public Permission()
         {
-            UserRoles = new HashSet<UserRole>();
             RolePermissions = new HashSet<RolePermission>();
         }
 
         /// <summary>
-        /// Gets or sets the tenant ID
-        /// </summary>
-        [Required]
-        public Guid TenantId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the role name
+        /// Gets or sets the permission name
         /// </summary>
         [Required]
         [MaxLength(256)]
         public string Name { get; set; } = string.Empty;
 
         /// <summary>
-        /// Gets or sets the associated tenant
+        /// Gets or sets the permission description
         /// </summary>
-        [NotNull]
-        public virtual Tenant? Tenant { get; set; }
-
-        /// <summary>
-        /// Gets or sets the collection of user roles
-        /// </summary>
-        public virtual ICollection<UserRole> UserRoles { get; set; }
+        [Required]
+        [MaxLength(512)]
+        public string Description { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the collection of role permissions

@@ -45,10 +45,20 @@ namespace Core.Entities
         public decimal Price { get; set; }
 
         /// <summary>
+        /// Gets or sets the supplier ID
+        /// </summary>
+        public Guid? SupplierId { get; set; }
+
+        /// <summary>
         /// Gets or sets the associated tenant
         /// </summary>
         [NotNull]
         public virtual Tenant? Tenant { get; set; }
+
+        /// <summary>
+        /// Gets or sets the associated supplier
+        /// </summary>
+        public virtual Supplier? Supplier { get; set; }
 
         /// <summary>
         /// Gets or sets the collection of product categories

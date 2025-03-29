@@ -37,6 +37,16 @@ namespace Core.Entities
         public decimal TotalAmount { get; set; }
 
         /// <summary>
+        /// Gets or sets the tax ID
+        /// </summary>
+        public Guid? TaxId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the discount ID
+        /// </summary>
+        public Guid? DiscountId { get; set; }
+
+        /// <summary>
         /// Gets or sets the associated tenant
         /// </summary>
         [NotNull]
@@ -47,6 +57,16 @@ namespace Core.Entities
         /// </summary>
         [NotNull]
         public virtual User? User { get; set; }
+
+        /// <summary>
+        /// Gets or sets the associated tax
+        /// </summary>
+        public virtual Tax? Tax { get; set; }
+
+        /// <summary>
+        /// Gets or sets the associated discount
+        /// </summary>
+        public virtual Discount? Discount { get; set; }
 
         /// <summary>
         /// Gets or sets the collection of sale items

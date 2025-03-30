@@ -1,0 +1,17 @@
+using System;
+using System.ComponentModel.DataAnnotations;
+
+namespace Infrastructures.DTOs.SaleItem
+{
+    public class SaleItemUpdateRequest
+    {
+        [Range(1, int.MaxValue, ErrorMessage = "Kuantitas harus lebih besar dari 0")]
+        public int? Quantity { get; set; }
+
+        [Range(0, double.MaxValue, ErrorMessage = "Harga satuan harus lebih besar dari 0")]
+        public decimal? UnitPrice { get; set; }
+
+        [Range(0, double.MaxValue, ErrorMessage = "Jumlah diskon harus lebih besar atau sama dengan 0")]
+        public decimal? DiscountAmount { get; set; }
+    }
+} 

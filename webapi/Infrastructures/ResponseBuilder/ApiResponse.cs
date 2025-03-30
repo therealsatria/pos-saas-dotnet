@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace webapi.Infrastructures.ResponseBuilder
+namespace Infrastructures.ResponseBuilder
 {
     public class ApiResponse<T>
     {

@@ -1,4 +1,4 @@
-namespace webapi.Infrastructures.DTOs.Common
+namespace Infrastructures.DTOs
 {
     public class ResultDto<T>
     {

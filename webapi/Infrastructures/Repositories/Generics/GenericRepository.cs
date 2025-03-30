@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using webapi.Infrastructures.Data;
-using webapi.Infrastructures.Exceptions;
-using webapi.Infrastructures.Repositories;
+using Infrastructures.Data;
+using Infrastructures.Exceptions;
+using Infrastructures.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;

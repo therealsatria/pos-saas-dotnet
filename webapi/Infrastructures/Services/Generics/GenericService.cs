@@ -1,5 +1,5 @@
-using webapi.Infrastructures.Repositories;
-using webapi.Infrastructures.Exceptions;
+using Infrastructures.Repositories;
+using Infrastructures.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;

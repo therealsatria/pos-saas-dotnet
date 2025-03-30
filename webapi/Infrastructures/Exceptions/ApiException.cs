@@ -1,6 +1,6 @@
 using System;
 
-namespace webapi.Infrastructures.Exceptions
+namespace Infrastructures.Exceptions
 {
     public class ApiException : Exception
     {

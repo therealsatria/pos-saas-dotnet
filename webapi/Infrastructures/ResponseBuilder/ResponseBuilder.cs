@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace webapi.Infrastructures.ResponseBuilder
+namespace Infrastructures.ResponseBuilder
 {
     public static class ResponseBuilder
     {

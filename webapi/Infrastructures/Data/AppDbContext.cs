@@ -3,9 +3,9 @@ using System.Data;
 using Dapper;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using webapi.Infrastructures.Entities;
+using Infrastructures.Entities;
 
-namespace webapi.Infrastructures.Data;
+namespace Infrastructures.Data;
 
 public class AppDbContext : DbContext
 {

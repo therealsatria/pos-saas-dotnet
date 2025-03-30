@@ -1,8 +1,8 @@
-using webapi.Infrastructures.ResponseBuilder;
+using Infrastructures.ResponseBuilder;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace webapi.Infrastructures.Exceptions
+namespace Infrastructures.Exceptions
 {
     public class ValidationFilter : IActionFilter
     {

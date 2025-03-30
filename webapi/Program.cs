@@ -1,5 +1,5 @@
-using webapi.Infrastructures.Repositories.Generics;
-using webapi.Infrastructures.Services.Generics;
+using Infrastructures.Repositories.Generics;
+using Infrastructures.Services.Generics;
 
 var builder = WebApplication.CreateBuilder(args);
 

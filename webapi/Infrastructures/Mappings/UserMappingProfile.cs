@@ -1,8 +1,8 @@
 using AutoMapper;
-using webapi.Infrastructures.DTOs;
-using webapi.Infrastructures.Entities;
+using Infrastructures.DTOs;
+using Infrastructures.Entities;
 
-namespace webapi.Core.Mappings;
+namespace Infrastructures.Mappings;
 
 public class UserMappingProfile : Profile
 {

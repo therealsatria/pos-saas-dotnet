@@ -2,11 +2,11 @@ using System;
 using System.Net;
 using System.Text.Json;
 using System.Threading.Tasks;
-using webapi.Infrastructures.ResponseBuilder;
+using Infrastructures.ResponseBuilder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 
-namespace webapi.Infrastructures.Exceptions
+namespace Infrastructures.Exceptions
 {
     public class ExceptionMiddleware
     {

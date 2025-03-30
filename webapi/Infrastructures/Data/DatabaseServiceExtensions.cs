@@ -3,9 +3,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Npgsql;
 using System.Data;
-using webapi.Infrastructures.Data;
+using Infrastructures.Data;
 
-namespace webapi.Infrastructures.Data;
+namespace Infrastructures.Data;
 
 public static class DatabaseServiceExtensions
 {

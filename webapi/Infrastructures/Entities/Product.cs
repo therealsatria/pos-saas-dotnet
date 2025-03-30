@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace Infrastructures.Entities
 {
@@ -10,5 +11,12 @@ namespace Infrastructures.Entities
         public decimal Price { get; set; }
         public decimal CostPrice { get; set; }
         public string UnitOfMeasure { get; set; }
+        public Guid? SupplierId { get; set; }
+        
+        // Navigation properties
+        public Tenant Tenant { get; set; }
+        public ICollection<ProductCategory> ProductCategories { get; set; }
+        public Supplier Supplier { get; set; }
+        public Inventory Inventory { get; set; }
     }
 }

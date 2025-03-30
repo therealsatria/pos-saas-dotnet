@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace webapi.Infrastructures.DTOs
+namespace Infrastructures.DTOs
 {
     public class UserUpdateRequest
     {

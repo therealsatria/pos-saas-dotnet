@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace Infrastructures.Entities
 {
@@ -8,5 +9,10 @@ namespace Infrastructures.Entities
         public Guid ProductId { get; set; }
         public int Stock { get; set; }
         public string Location { get; set; }
+        
+        // Navigation properties
+        public Tenant Tenant { get; set; }
+        public Product Product { get; set; }
+        public ICollection<InventoryLog> InventoryLogs { get; set; }
     }
 }

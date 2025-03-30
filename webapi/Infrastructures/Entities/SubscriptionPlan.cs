@@ -1,12 +1,16 @@
 using System;
 using System.Collections.Generic;
+using System.Text.Json;
 
-namespace pos_saas.Entities
+namespace Infrastructures.Entities
 {
     public class SubscriptionPlan : BaseEntity
     {
         public string Name { get; set; }
         public decimal Price { get; set; }
-        public Dictionary<string, object> Features { get; set; }
+        public JsonDocument Features { get; set; }
+        
+        // Navigation properties
+        public ICollection<Subscription> Subscriptions { get; set; }
     }
 }

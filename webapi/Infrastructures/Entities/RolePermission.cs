@@ -2,13 +2,13 @@ using System;
 
 namespace Infrastructures.Entities
 {
-    public class UserRole : BaseEntity
+    public class RolePermission : BaseEntity
     {
-        public Guid UserId { get; set; }
         public Guid RoleId { get; set; }
+        public Guid PermissionId { get; set; }
         
         // Navigation properties
-        public User User { get; set; }
         public Role Role { get; set; }
+        public Permission Permission { get; set; }
     }
-}
+} 

@@ -18,7 +18,6 @@ public class AppDbContext : DbContext
     public DbSet<User> Users => Set<User>();
     public DbSet<Role> Roles => Set<Role>();
     public DbSet<Permission> Permissions => Set<Permission>();
-    public DbSet<RolePermission> RolePermissions => Set<RolePermission>();
     public DbSet<UserRole> UserRoles => Set<UserRole>();
     public DbSet<Product> Products => Set<Product>();
     public DbSet<Category> Categories => Set<Category>();
@@ -33,7 +32,7 @@ public class AppDbContext : DbContext
     public DbSet<Discount> Discounts => Set<Discount>();
     public DbSet<Customer> Customers => Set<Customer>();
     public DbSet<LoyaltyProgram> LoyaltyPrograms => Set<LoyaltyProgram>();
-    public DbSet<LoyaltyPoints> LoyaltyPoints => Set<LoyaltyPoints>();
+    public DbSet<LoyaltyPoint> LoyaltyPoints => Set<LoyaltyPoint>();
     public DbSet<AuditLog> AuditLogs => Set<AuditLog>();
     public DbSet<Report> Reports => Set<Report>();
     public DbSet<PaymentGateway> PaymentGateways => Set<PaymentGateway>();
@@ -130,7 +129,7 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<Customer>()
             .HasOne(c => c.LoyaltyPoints)
             .WithOne(lp => lp.Customer)
-            .HasForeignKey<LoyaltyPoints>(lp => lp.CustomerId);
+            .HasForeignKey<LoyaltyPoint>(lp => lp.CustomerId);
 
         modelBuilder.Entity<LoyaltyProgram>()
             .HasMany(lp => lp.LoyaltyPoints)

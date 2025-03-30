@@ -8,5 +8,9 @@ namespace Infrastructures.Entities
         public Guid UserId { get; set; }
         public string Action { get; set; }
         public DateTime CreatedAt { get; set; }
+        
+        // Navigation properties
+        public Tenant Tenant { get; set; }
+        public User User { get; set; }
     }
 }

@@ -1,5 +1,5 @@
 using System;
-using System.Collections.Generic;
+using System.Text.Json;
 
 namespace Infrastructures.Entities
 {
@@ -7,6 +7,9 @@ namespace Infrastructures.Entities
     {
         public Guid TenantId { get; set; }
         public string Type { get; set; }
-        public Dictionary<string, object> Data { get; set; }
+        public JsonDocument Data { get; set; }
+        
+        // Navigation properties
+        public Tenant Tenant { get; set; }
     }
 }

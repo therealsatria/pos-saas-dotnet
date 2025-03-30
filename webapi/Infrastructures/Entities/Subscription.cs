@@ -9,5 +9,9 @@ namespace Infrastructures.Entities
         public string Status { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
+        
+        // Navigation properties
+        public Tenant Tenant { get; set; }
+        public SubscriptionPlan Plan { get; set; }
     }
 }

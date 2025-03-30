@@ -9,5 +9,9 @@ namespace Infrastructures.Entities
         public int Quantity { get; set; }
         public decimal UnitPrice { get; set; }
 		public decimal DiscountAmount { get; set; }
+        
+        // Navigation properties
+        public Sale Sale { get; set; }
+        public Product Product { get; set; }
     }
 }

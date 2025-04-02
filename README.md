@@ -9,7 +9,6 @@ erDiagram
         string name
         string subdomain
         uuid plan_id FK
-        INDEX(name)
     }
     subscriptions {
         uuid id PK
@@ -18,8 +17,6 @@ erDiagram
         string status
         timestamp start_date
         timestamp end_date
-        INDEX(tenant_id)
-        INDEX(plan_id)
     }
     subscription_plans {
         uuid id PK
@@ -35,15 +32,12 @@ erDiagram
         timestamp created_at
         timestamp last_login
         string status
-        INDEX(tenant_id)
-        INDEX(email)
     }
     roles {
         uuid id PK
         uuid tenant_id FK
         string name
         json permissions
-        INDEX(tenant_id)
     }
     user_roles {
         uuid user_id PK, FK
@@ -54,7 +48,6 @@ erDiagram
         string name
         string description
         uuid tenant_id FK
-        INDEX(tenant_id)
     }
     products {
         uuid id PK
@@ -64,15 +57,12 @@ erDiagram
         decimal price
         decimal cost_price
         string unit_of_measure
-        INDEX(tenant_id)
-        INDEX(sku)
     }
     categories {
         uuid id PK
         uuid tenant_id FK
         string name
         uuid parent_id FK "Hierarchical category"
-        INDEX(tenant_id)
     }
     product_categories {
         uuid product_id PK, FK
@@ -84,8 +74,6 @@ erDiagram
         uuid product_id FK
         integer stock
         string location
-        INDEX(tenant_id)
-        INDEX(product_id)
     }
     inventory_logs {
         uuid id PK
@@ -93,14 +81,12 @@ erDiagram
         integer quantity
         string action_type "restock/sale/adjustment"
         timestamp created_at
-        INDEX(inventory_id)
     }
     suppliers {
         uuid id PK
         uuid tenant_id FK
         string name
         string contact
-        INDEX(tenant_id)
     }
     sales {
         uuid id PK
@@ -108,8 +94,6 @@ erDiagram
         uuid user_id FK
         decimal total_amount
         timestamp created_at
-        INDEX(tenant_id)
-        INDEX(user_id)
     }
     sale_items {
         uuid id PK
@@ -118,8 +102,6 @@ erDiagram
         integer quantity
         decimal unit_price
         decimal discount_amount
-        INDEX(sale_id)
-        INDEX(product_id)
     }
     payments {
         uuid id PK
@@ -127,14 +109,12 @@ erDiagram
         string method "cash/card/ewallet"
         decimal amount
         string transaction_id
-        INDEX(sale_id)
     }
     taxes {
         uuid id PK
         uuid tenant_id FK
         string name
         decimal rate
-        INDEX(tenant_id)
     }
     discounts {
         uuid id PK
@@ -142,7 +122,6 @@ erDiagram
         string code
         decimal value
         string type "percentage/fixed"
-        INDEX(tenant_id)
     }
     %% 5. Customer & Loyalty
     customers {
@@ -151,20 +130,17 @@ erDiagram
         string name
         string phone
         string email
-        INDEX(tenant_id)
     }
     loyalty_programs {
         uuid id PK
         uuid tenant_id FK
         string name
         decimal points_rate "Points per currency"
-        INDEX(tenant_id)
     }
     loyalty_points {
         uuid id PK
         uuid customer_id FK
         integer balance
-        INDEX(customer_id)
     }
     audit_logs {
         uuid id PK
@@ -172,30 +148,50 @@ erDiagram
         uuid user_id FK
         string action
         timestamp created_at
-        INDEX(tenant_id)
-        INDEX(user_id)
     }
     reports {
         uuid id PK
         uuid tenant_id FK
         string type
         json data
-        INDEX(tenant_id)
     }
     payment_gateways {
         uuid id PK
         uuid tenant_id FK
         string type "stripe/midtrans"
         string api_key_encrypted
-        INDEX(tenant_id)
     }
     tenant_settings {
         uuid id PK
         uuid tenant_id FK
         string setting_key
         string setting_value
-        INDEX(tenant_id)
     }
+     INDEX tenants name
+     INDEX subscriptions tenant_id
+     INDEX subscriptions plan_id
+     INDEX users tenant_id
+     INDEX users email
+     INDEX roles tenant_id
+     INDEX permissions tenant_id
+     INDEX products tenant_id
+     INDEX products sku
+     INDEX categories tenant_id
+     INDEX inventory tenant_id
+     INDEX inventory product_id
+     INDEX inventory_logs inventory_id
+     INDEX suppliers tenant_id
+     INDEX sales tenant_id
+     INDEX sales user_id
+     INDEX sale_items sale_id
+     INDEX sale_items product_id
+     INDEX customers tenant_id
+     INDEX loyalty_points customer_id
+     INDEX audit_logs tenant_id
+     INDEX audit_logs user_id
+     INDEX reports tenant_id
+     INDEX payment_gateways tenant_id
+     INDEX tenant_settings tenant_id
     tenants ||--o{ subscriptions : "has"
     subscription_plans ||--o{ subscriptions : "offers"
     tenants ||--o{ users : "has"

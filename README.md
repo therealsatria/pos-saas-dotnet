@@ -11,7 +11,6 @@ erDiagram
         uuid plan_id FK
         INDEX(name)
     }
-
     subscriptions {
         uuid id PK
         uuid tenant_id FK
@@ -22,15 +21,12 @@ erDiagram
         INDEX(tenant_id)
         INDEX(plan_id)
     }
-
     subscription_plans {
         uuid id PK
         string name
         decimal price
         json features
     }
-
-    %% 2. User & RBAC
     users {
         uuid id PK
         uuid tenant_id FK
@@ -42,7 +38,6 @@ erDiagram
         INDEX(tenant_id)
         INDEX(email)
     }
-
     roles {
         uuid id PK
         uuid tenant_id FK
@@ -50,12 +45,10 @@ erDiagram
         json permissions
         INDEX(tenant_id)
     }
-
     user_roles {
         uuid user_id PK, FK
         uuid role_id PK, FK
     }
-
     permissions {
         uuid id PK
         string name
@@ -63,8 +56,6 @@ erDiagram
         uuid tenant_id FK
         INDEX(tenant_id)
     }
-
-    %% 3. Product & Inventory
     products {
         uuid id PK
         uuid tenant_id FK
@@ -76,7 +67,6 @@ erDiagram
         INDEX(tenant_id)
         INDEX(sku)
     }
-
     categories {
         uuid id PK
         uuid tenant_id FK
@@ -84,12 +74,10 @@ erDiagram
         uuid parent_id FK "Hierarchical category"
         INDEX(tenant_id)
     }
-
     product_categories {
         uuid product_id PK, FK
         uuid category_id PK, FK
     }
-
     inventory {
         uuid id PK
         uuid tenant_id FK
@@ -99,7 +87,6 @@ erDiagram
         INDEX(tenant_id)
         INDEX(product_id)
     }
-
     inventory_logs {
         uuid id PK
         uuid inventory_id FK
@@ -108,7 +95,6 @@ erDiagram
         timestamp created_at
         INDEX(inventory_id)
     }
-
     suppliers {
         uuid id PK
         uuid tenant_id FK
@@ -116,8 +102,6 @@ erDiagram
         string contact
         INDEX(tenant_id)
     }
-
-    %% 4. Sales & Payment
     sales {
         uuid id PK
         uuid tenant_id FK
@@ -127,7 +111,6 @@ erDiagram
         INDEX(tenant_id)
         INDEX(user_id)
     }
-
     sale_items {
         uuid id PK
         uuid sale_id FK
@@ -138,7 +121,6 @@ erDiagram
         INDEX(sale_id)
         INDEX(product_id)
     }
-
     payments {
         uuid id PK
         uuid sale_id FK
@@ -147,7 +129,6 @@ erDiagram
         string transaction_id
         INDEX(sale_id)
     }
-
     taxes {
         uuid id PK
         uuid tenant_id FK
@@ -155,7 +136,6 @@ erDiagram
         decimal rate
         INDEX(tenant_id)
     }
-
     discounts {
         uuid id PK
         uuid tenant_id FK
@@ -164,7 +144,6 @@ erDiagram
         string type "percentage/fixed"
         INDEX(tenant_id)
     }
-
     %% 5. Customer & Loyalty
     customers {
         uuid id PK
@@ -174,7 +153,6 @@ erDiagram
         string email
         INDEX(tenant_id)
     }
-
     loyalty_programs {
         uuid id PK
         uuid tenant_id FK
@@ -182,15 +160,12 @@ erDiagram
         decimal points_rate "Points per currency"
         INDEX(tenant_id)
     }
-
     loyalty_points {
         uuid id PK
         uuid customer_id FK
         integer balance
         INDEX(customer_id)
     }
-
-    %% 6. Reporting & Logs
     audit_logs {
         uuid id PK
         uuid tenant_id FK
@@ -200,7 +175,6 @@ erDiagram
         INDEX(tenant_id)
         INDEX(user_id)
     }
-
     reports {
         uuid id PK
         uuid tenant_id FK
@@ -208,8 +182,6 @@ erDiagram
         json data
         INDEX(tenant_id)
     }
-
-    %% 7. Integrations & Settings
     payment_gateways {
         uuid id PK
         uuid tenant_id FK
@@ -217,7 +189,6 @@ erDiagram
         string api_key_encrypted
         INDEX(tenant_id)
     }
-
     tenant_settings {
         uuid id PK
         uuid tenant_id FK
@@ -225,8 +196,6 @@ erDiagram
         string setting_value
         INDEX(tenant_id)
     }
-
-    %% Relationships
     tenants ||--o{ subscriptions : "has"
     subscription_plans ||--o{ subscriptions : "offers"
     tenants ||--o{ users : "has"

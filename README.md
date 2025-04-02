@@ -39,9 +39,13 @@ erDiagram
         string name
         json permissions
     }
+    role_permissions {
+        uuid role_id FK
+        uuid permission_id FK
+    }
     user_roles {
-        uuid user_id PK, FK
-        uuid role_id PK, FK
+        uuid user_id FK
+        uuid role_id FK
     }
     permissions {
         uuid id PK
@@ -57,6 +61,7 @@ erDiagram
         decimal price
         decimal cost_price
         string unit_of_measure
+        uuid supplier_id FK
     }
     categories {
         uuid id PK
@@ -65,8 +70,8 @@ erDiagram
         uuid parent_id FK "Hierarchical category"
     }
     product_categories {
-        uuid product_id PK, FK
-        uuid category_id PK, FK
+        uuid product_id FK
+        uuid category_id FK
     }
     inventory {
         uuid id PK
@@ -94,6 +99,8 @@ erDiagram
         uuid user_id FK
         decimal total_amount
         timestamp created_at
+        uuid tax_id FK
+        uuid discount_id FK
     }
     sale_items {
         uuid id PK
@@ -123,7 +130,6 @@ erDiagram
         decimal value
         string type "percentage/fixed"
     }
-    %% 5. Customer & Loyalty
     customers {
         uuid id PK
         uuid tenant_id FK
@@ -141,6 +147,7 @@ erDiagram
         uuid id PK
         uuid customer_id FK
         integer balance
+        uuid loyalty_program_id FK
     }
     audit_logs {
         uuid id PK
@@ -192,27 +199,29 @@ erDiagram
      INDEX reports tenant_id
      INDEX payment_gateways tenant_id
      INDEX tenant_settings tenant_id
+
     tenants ||--o{ subscriptions : "has"
     subscription_plans ||--o{ subscriptions : "offers"
     tenants ||--o{ users : "has"
     tenants ||--o{ roles : "defines"
-    users }|--|| roles : "assigned_via"
-    roles }|--|{ permissions : "has"
-
+    users }|--|| user_roles : "assigned_via"
+    roles }|--|| user_roles : "assigned_via"
+    roles }|--|{ role_permissions : "has"
+    permissions }|--|{ role_permissions : "assigned_via"
     tenants ||--o{ products : "owns"
+    suppliers }o--|| products : "supplies"
     products }|--|{ categories : "categorized_via"
-    categories }|--|| categories : "child_of"
+    categories }--|| categories : "child_of"
     products ||--o{ inventory : "tracks"
     inventory ||--o{ inventory_logs : "logs"
-    suppliers }o--|| products : "supplies"
 
     tenants ||--o{ sales : "has"
     sales ||--o{ sale_items : "contains"
     sale_items }o--|| products : "references"
     discounts ||--o{ sale_items : "applies to"
     sales }|--|| payments : "processed_via"
-    sales }|--|| taxes : "applies"
-    sales }|--|| discounts : "applies"
+    sales }o--|| taxes : "applies"
+    sales }o--|| discounts : "applies"
 
     tenants ||--o{ customers : "has"
     customers }|--|| loyalty_points : "earns"

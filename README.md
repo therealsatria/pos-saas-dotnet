@@ -4,7 +4,6 @@
 
 ```mermaid
 erDiagram
-    %% 1. Tenant & Subscription Management
     tenants {
         uuid id PK
         string name

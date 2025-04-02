@@ -1,8 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using System.Data;
 using Dapper;
-using System.Threading.Tasks;
-using System.Collections.Generic;
 using Infrastructures.Entities;
 
 namespace Infrastructures.Data;

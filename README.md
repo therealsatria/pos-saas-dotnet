@@ -389,3 +389,147 @@ stateDiagram-v2
 2.  **Additional Diagrams (Optional)**:
     *   **Deployment Diagram**: Illustrates the physical deployment of your application components.
     *   **Component Diagram**: Shows the high-level components of your system and their relationships.
+
+## Panduan Database Migration
+
+Aplikasi ini menggunakan Entity Framework Core untuk mengelola database dan migrasi. Berikut adalah panduan lengkap untuk melakukan operasi database menggunakan script yang tersedia.
+
+### Prasyarat
+
+1. Pastikan PostgreSQL sudah terinstall dan berjalan
+2. Database PostgreSQL sudah dikonfigurasi sesuai dengan file `appsettings.json`
+3. Entity Framework Core tools sudah terinstall:
+   ```bash
+   dotnet tool install --global dotnet-ef
+   ```
+
+### Script Migration yang Tersedia
+
+Semua script migration berada di direktori `webapi/scripts/`. Gunakan terminal untuk menjalankan script-script ini.
+
+#### 1. Membuat Migration Awal
+
+Untuk inisialisasi awal database dan membuat migration pertama:
+
+```bash
+cd webapi
+./scripts/initial-migration.sh
+```
+
+Script ini akan:
+- Membuat migration awal bernama "InitialCreate"
+- Mengaplikasikan migration tersebut ke database
+- Membuat skema database sesuai dengan model entitas
+
+#### 2. Membuat Migration Baru
+
+Setelah melakukan perubahan pada model entitas, buat migration baru:
+
+```bash
+cd webapi
+./scripts/create-migration.sh NamaMigration
+```
+
+Ganti `NamaMigration` dengan nama yang menjelaskan perubahan model, misalnya `AddProductImage` atau `UpdateUserRoles`.
+
+#### 3. Mengaplikasikan Migration ke Database
+
+Untuk mengaplikasikan migration yang belum diterapkan ke database:
+
+```bash
+cd webapi
+./scripts/update-database.sh
+```
+
+Script ini akan:
+- Menerapkan semua migration yang belum diaplikasikan
+- Menampilkan daftar migration yang sudah diterapkan
+
+#### 4. Menghapus Migration Terakhir
+
+Jika Anda ingin menghapus migration terakhir yang belum diaplikasikan:
+
+```bash
+cd webapi
+./scripts/remove-migrations.sh
+```
+
+⚠️ **Catatan**: Migration yang sudah diaplikasikan ke database tidak dapat dihapus langsung. Anda harus melakukan rollback terlebih dahulu.
+
+#### 5. Menghapus Database
+
+Untuk menghapus database sepenuhnya:
+
+```bash
+cd webapi
+./scripts/drop-database.sh
+```
+
+⚠️ **PERINGATAN**: Script ini akan menghapus seluruh database dan semua data di dalamnya.
+
+#### 6. Reset Database
+
+Untuk menghapus dan membuat ulang database:
+
+```bash
+cd webapi
+./scripts/reset-database.sh
+```
+
+⚠️ **PERINGATAN**: Script ini akan menghapus database dan membuat ulang dengan skema terbaru. Semua data akan hilang.
+
+### Troubleshooting
+
+1. **Error "No migrations were applied"**:
+   - Pastikan Anda telah membuat migration dengan `create-migration.sh` sebelum menjalankan `update-database.sh`
+
+2. **Error "Cannot access database"**:
+   - Pastikan PostgreSQL berjalan dengan `docker-compose up -d` 
+   - Periksa connection string di `appsettings.json`
+
+3. **Error "Migration 'X' has already been applied"**:
+   - Jalankan `reset-database.sh` untuk menghapus dan membuat ulang database
+   - Atau hapus database secara manual dan buat ulang dengan `update-database.sh`
+
+4. **Error "Design time services tidak tersedia"**:
+   - Pastikan package `Microsoft.EntityFrameworkCore.Design` sudah terinstall dan sesuai dengan versi EF Core yang digunakan
+
+### Workflow Pengembangan dengan Migrations
+
+1. **Memulai Proyek Baru**:
+   - Jalankan `initial-migration.sh` untuk membuat migration awal dan mengaplikasikannya
+
+2. **Pengembangan Iteratif**:
+   - Ubah model entitas dalam codebase
+   - Jalankan `create-migration.sh NamaMigration` untuk membuat migration baru
+   - Jalankan `update-database.sh` untuk mengaplikasikan perubahan ke database
+   - Uji aplikasi dengan skema database baru
+
+3. **Deployment ke Production**:
+   - Pastikan semua migration sudah teruji dengan baik
+   - Pada environment production, gunakan `dotnet ef database update` atau mekanisme deployment yang sesuai
+
+4. **Rollback Jika Terjadi Masalah**:
+   - Gunakan `dotnet ef database update NamaMigrationSebelumnya` untuk rollback ke migration tertentu
+   - Jika perlu, gunakan `reset-database.sh` di environment pengembangan untuk reset total
+
+### Praktik Terbaik Entity Framework Core
+
+1. **Penamaan Migration**:
+   - Gunakan nama yang deskriptif, jelas menjelaskan perubahan model
+   - Contoh: `AddProductImageField`, `CreateCustomerLoyaltyRelation`
+
+2. **Validasi Migration**:
+   - Review kode migration yang dihasilkan di `Infrastructures/Data/Migrations/`
+   - Validasi SQL yang akan dieksekusi dengan `dotnet ef migrations script` jika perlu
+
+3. **Commit Migration**:
+   - Selalu commit file migration ke version control
+   - Jangan edit file migration secara manual kecuali benar-benar diperlukan
+   - Buat migration baru untuk koreksi daripada mengedit migration lama
+
+4. **Testing**:
+   - Uji migration dengan database kosong dan database dengan data
+   - Verifikasi bahwa up/down migration berfungsi dengan benar
+
+Untuk informasi lebih lanjut tentang Entity Framework Core dan migrations, kunjungi [dokumentasi resmi Microsoft](https://docs.microsoft.com/en-us/ef/core/managing-schemas/migrations/).

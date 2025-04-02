@@ -1,5 +1,6 @@
 using AutoMapper;
 using Infrastructures.DTOs;
+using Infrastructures.DTOs.User;
 using Infrastructures.Entities;
 
 namespace Infrastructures.Mappings;

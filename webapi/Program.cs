@@ -1,16 +1,51 @@
-using Infrastructures.Repositories.Generics;
-using Infrastructures.Services.Generics;
+using Microsoft.EntityFrameworkCore;
+using Infrastructures.Data;
+using Infrastructures.Repositories;
+using Infrastructures.Services;
+using Infrastructures.Exceptions;
+using Microsoft.AspNetCore.Mvc;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
-builder.Services.AddScoped(typeof(IGenericService<>), typeof(GenericService<>));
-builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddControllers(options => {
+    options.Filters.Add<ValidationFilter>();
+})
+.ConfigureApiBehaviorOptions(options => {
+    // Disable automatic model state validation
+    options.SuppressModelStateInvalidFilter = true;
+})
+.AddJsonOptions(options => {
+    // Handle reference cycles
+    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+});
 
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+// Configure DbContext with PostgreSQL
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseNpgsql(
+        builder.Configuration.GetConnectionString("DefaultConnection"),
+        b => b.MigrationsAssembly("webapi")));
+
+// Configure Dependency Injection for Repositories and Services
+builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+
+
+// Configure CORS (if needed)
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll",
+        builder =>
+        {
+            builder.AllowAnyOrigin()
+                   .AllowAnyMethod()
+                   .AllowAnyHeader();
+        });
+});
 
 var app = builder.Build();
 
@@ -19,11 +54,33 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-    app.MapOpenApi();
 }
 
+// Use global exception handling middleware
+app.UseGlobalExceptionHandler();
+
 app.UseHttpsRedirection();
+
+app.UseCors("AllowAll"); // Use CORS policy
+
 app.UseAuthorization();
+
 app.MapControllers();
+
+// Apply Migrations
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    try
+    {
+        var context = services.GetRequiredService<AppDbContext>();
+        context.Database.Migrate(); // Apply migrations on startup
+    }
+    catch (Exception ex)
+    {
+        var logger = services.GetRequiredService<ILogger<Program>>();
+        logger.LogError(ex, "An error occurred while migrating the database.");
+    }
+}
 
 app.Run();

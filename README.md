@@ -211,7 +211,7 @@ erDiagram
     tenants ||--o{ products : "owns"
     suppliers }o--|| products : "supplies"
     products }|--|{ categories : "categorized_via"
-    categories }--|| categories : "child_of"
+    categories ||--|| categories : "child_of"
     products ||--o{ inventory : "tracks"
     inventory ||--o{ inventory_logs : "logs"
 

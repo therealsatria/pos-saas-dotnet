@@ -506,3 +506,29 @@ cd webapi
    - Verifikasi bahwa up/down migration berfungsi dengan benar
 
 Untuk informasi lebih lanjut tentang Entity Framework Core dan migrations, kunjungi [dokumentasi resmi Microsoft](https://docs.microsoft.com/en-us/ef/core/managing-schemas/migrations/).
+
+## License
+
+This project is open source and available under the following license:
+
+Copyright (c) 2025 POS SaaS Team
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to use,
+copy, modify, merge, publish, and distribute the Software for non-commercial 
+purposes only, subject to the following conditions:
+
+1. The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+2. Any commercial use of this Software requires prior written consent from the 
+copyright holders. For commercial use inquiries, please contact us at 
+landasanteori00@gmail.com.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.

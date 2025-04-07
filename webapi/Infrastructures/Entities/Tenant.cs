@@ -7,7 +7,6 @@ namespace Infrastructures.Entities
     {
         public string Name { get; set; }
         public string Subdomain { get; set; }
-        public Guid PlanId { get; set; }
         
         // Navigation properties
         public ICollection<Subscription> Subscriptions { get; set; }

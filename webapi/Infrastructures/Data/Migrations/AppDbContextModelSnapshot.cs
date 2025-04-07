@@ -573,7 +573,7 @@ namespace webapi.Infrastructures.Data.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("RolePermission");
+                    b.ToTable("RolePermissions");
                 });
 
             modelBuilder.Entity("Infrastructures.Entities.Sale", b =>
@@ -809,9 +809,6 @@ namespace webapi.Infrastructures.Data.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<Guid>("PlanId")
-                        .HasColumnType("uuid");
 
                     b.Property<string>("Subdomain")
                         .IsRequired()

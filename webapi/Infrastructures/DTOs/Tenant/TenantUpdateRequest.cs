@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Infrastructures.DTOs.Tenant
+namespace Infrastructures.DTOs
 {
     public class TenantUpdateRequest
     {
@@ -12,7 +12,5 @@ namespace Infrastructures.DTOs.Tenant
         [RegularExpression(@"^[a-z0-9]([a-z0-9\-]{0,61}[a-z0-9])?$", 
             ErrorMessage = "Subdomain hanya boleh berisi huruf kecil, angka, dan tanda strip")]
         public string Subdomain { get; set; }
-        
-        public Guid? PlanId { get; set; }
     }
 } 

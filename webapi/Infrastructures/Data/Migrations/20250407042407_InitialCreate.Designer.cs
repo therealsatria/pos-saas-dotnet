@@ -13,7 +13,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace webapi.Infrastructures.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250402044209_InitialCreate")]
+    [Migration("20250407042407_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -576,7 +576,7 @@ namespace webapi.Infrastructures.Data.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("RolePermission");
+                    b.ToTable("RolePermissions");
                 });
 
             modelBuilder.Entity("Infrastructures.Entities.Sale", b =>
@@ -812,9 +812,6 @@ namespace webapi.Infrastructures.Data.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<Guid>("PlanId")
-                        .HasColumnType("uuid");
 
                     b.Property<string>("Subdomain")
                         .IsRequired()

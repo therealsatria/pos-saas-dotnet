@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Infrastructures.DTOs.SubscriptionPlan
+namespace Infrastructures.DTOs
 {
     public class SubscriptionPlanUpdateRequest
     {

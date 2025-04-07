@@ -2,7 +2,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
 
-namespace Infrastructures.DTOs.SubscriptionPlan
+namespace Infrastructures.DTOs
 {
     public class SubscriptionPlanCreateRequest
     {

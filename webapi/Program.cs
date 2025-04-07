@@ -34,6 +34,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 // Configure Dependency Injection for Repositories and Services
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<SubscriptionPlanService>();
 
 // Configure CORS (if needed)
 builder.Services.AddCors(options =>

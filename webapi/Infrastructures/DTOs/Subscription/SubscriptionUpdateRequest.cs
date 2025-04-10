@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Infrastructures.DTOs.Subscription
+namespace Infrastructures.DTOs
 {
     public class SubscriptionUpdateRequest
     {
@@ -12,5 +12,6 @@ namespace Infrastructures.DTOs.Subscription
         public DateTime? StartDate { get; set; }
 
         public DateTime? EndDate { get; set; }
+        public int DurationInMonths { get; set; }
     }
 } 

@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Infrastructures.DTOs.Subscription
+namespace Infrastructures.DTOs
 {
     public class SubscriptionCreateRequest
     {
@@ -19,5 +19,6 @@ namespace Infrastructures.DTOs.Subscription
 
         [Required(ErrorMessage = "Tanggal berakhir diperlukan")]
         public DateTime EndDate { get; set; }
+        public int DurationInMonths { get; set; }
     }
 } 

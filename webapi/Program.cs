@@ -36,6 +36,7 @@ builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepositor
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<SubscriptionPlanService>();
 builder.Services.AddScoped<TenantService>();
+builder.Services.AddScoped<SubscriptionManagementService>();
 
 // Configure CORS (if needed)
 builder.Services.AddCors(options =>
